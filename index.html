@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sketchify AI - Turn your photos into beautiful sketches.">
+  <title>Sketchify AI - AI Photo Sketch Generator</title>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <a href="#" class="logo" onclick="showPage('home')">
+      ✏️ Sketchify<span>AI</span>
+    </a>
+
+    <nav>
+      <button onclick="showPage('home')">Home</button>
+      <button onclick="showPage('generator')">AI Generator</button>
+      <button onclick="showPage('dashboard')">Dashboard</button>
+      <button class="premium-nav" onclick="openPremium()">👑 Premium ₹99</button>
+      <button onclick="openLogin()">Login</button>
+    </nav>
+  </header>
+
+
+  <!-- HOME -->
+  <main id="homePage" class="page">
+
+    <section class="hero">
+      <div class="hero-text">
+        <div class="badge">✨ AI PHOTO SKETCH GENERATOR</div>
+
+        <h1>Turn Your Photos Into <span>Beautiful Sketches</span></h1>
+
+        <p>
+          Upload a photo and transform it into an artistic sketch
+          automatically. Fast, simple and beautiful.
+        </p>
+
+        <div class="hero-buttons">
+          <button class="primary-btn" onclick="showPage('generator')">
+            🎨 Try AI Generator
+          </button>
+
+          <button class="secondary-btn" onclick="openPremium()">
+            👑 Get Premium ₹99
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="fake-sketch">
+          ✏️
+          <h3>Your Photo → Sketch</h3>
+          <p>AI powered transformation</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- FEATURES -->
+    <section class="features">
+      <div class="feature">
+        <div>📤</div>
+        <h3>Upload</h3>
+        <p>Choose any photo from your device.</p>
+      </div>
+
+      <div class="feature">
+        <div>🤖</div>
+        <h3>AI-Style Sketch</h3>
+        <p>Automatically create a sketch effect.</p>
+      </div>
+
+      <div class="feature">
+        <div>👀</div>
+        <h3>Preview</h3>
+        <p>See your result before downloading.</p>
+      </div>
+
+      <div class="feature">
+        <div>⬇️</div>
+        <h3>HD Download</h3>
+        <p>Download your finished artwork.</p>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- GENERATOR -->
+  <main id="generatorPage" class="page hidden">
+
+    <section class="generator">
+
+      <div class="section-heading">
+        <div class="badge">🤖 AI GENERATOR</div>
+        <h2>Create Your Sketch</h2>
+        <p>Upload a photo and apply an artistic sketch effect.</p>
+      </div>
+
+      <div class="upload-box" id="uploadBox">
+
+        <div class="upload-icon">📸</div>
+
+        <h3>Upload your photo</h3>
+
+        <p>JPG, PNG or WEBP</p>
+
+        <label class="upload-btn">
+          📤 Choose Photo
+          <input
+            type="file"
+            id="photoInput"
+            accept="image/*"
+            onchange="handleUpload(event)"
+            hidden
+          >
+        </label>
+
+      </div>
+
+
+      <!-- PREVIEW -->
+      <div id="previewArea" class="preview-area hidden">
+
+        <div class="preview-card">
+          <h3>Original</h3>
+          <img id="originalImage" alt="Original photo">
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div class="preview-card">
+          <h3>AI Sketch</h3>
+
+          <canvas id="sketchCanvas"></canvas>
+
+          <div id="loadingText" class="loading hidden">
+            ✨ Creating your sketch...
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- CONTROLS -->
+      <div id="controls" class="controls hidden">
+
+        <h3>🎨 Sketch Style</h3>
+
+        <div class="style-buttons">
+          <button onclick="applySketch('normal')">✏️ Pencil</button>
+          <button onclick="applySketch('dark')">🖊️ Dark Ink</button>
+          <button onclick="applySketch('soft')">📝 Soft</button>
+        </div>
+
+        <div class="download-area">
+
+          <button class="primary-btn" onclick="downloadSketch()">
+            ⬇️ Download Sketch
+          </button>
+
+          <button class="premium-download" onclick="openPremium()">
+            👑 HD Download
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- DASHBOARD -->
+  <main id="dashboardPage" class="page hidden">
+
+    <section class="dashboard">
+
+      <div class="section-heading">
+        <div class="badge">👤 MY ACCOUNT</div>
+        <h2>User Dashboard</h2>
+        <p>Manage your Sketchify AI account.</p>
+      </div>
+
+      <div class="dashboard-grid">
+
+        <div class="dash-card">
+          <div class="dash-icon">🎨</div>
+          <h3>Sketches Created</h3>
+          <strong id="sketchCount">0</strong>
+        </div>
+
+        <div class="dash-card">
+          <div class="dash-icon">⬇️</div>
+          <h3>Downloads</h3>
+          <strong id="downloadCount">0</strong>
+        </div>
+
+        <div class="dash-card">
+          <div class="dash-icon">👑</div>
+          <h3>Membership</h3>
+          <strong id="membership">Free</strong>
+        </div>
+
+      </div>
+
+      <div class="account-card">
+        <h3>Account</h3>
+        <p id="userEmail">Not logged in</p>
+
+        <button class="secondary-btn" onclick="openLogin()">
+          Login / Sign Up
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal hidden">
+
+    <div class="modal-box">
+
+      <button class="close" onclick="closeLogin()">×</button>
+
+      <div class="badge">👤 ACCOUNT</div>
+
+      <h2>Welcome to Sketchify AI</h2>
+
+      <p>Login to save your sketches and downloads.</p>
+
+      <input
+        type="email"
+        id="emailInput"
+        placeholder="Enter your email"
+      >
+
+      <button class="primary-btn full" onclick="loginUser()">
+        Continue
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- PREMIUM MODAL -->
+  <div id="premiumModal" class="modal hidden">
+
+    <div class="modal-box premium-box">
+
+      <button class="close" onclick="closePremium()">×</button>
+
+      <div class="crown">👑</div>
+
+      <h2>Sketchify AI Premium</h2>
+
+      <div class="price">₹99 <small>/ month</small></div>
+
+      <div class="premium-list">
+        <p>✓ Unlimited sketch generations</p>
+        <p>✓ HD downloads</p>
+        <p>✓ Premium sketch styles</p>
+        <p>✓ No watermark</p>
+        <p>✓ Save your creations</p>
+      </div>
+
+      <button class="primary-btn full" onclick="startPayment()">
+        💳 Continue to Payment
+      </button>
+
+      <small class="payment-note">
+        Secure payment will be connected later.
+      </small>
+
+    </div>
+
+  </div>
+
+
+  <!-- PAYMENT DEMO MODAL -->
+  <div id="paymentModal" class="modal hidden">
+
+    <div class="modal-box">
+
+      <button class="close" onclick="closePayment()">×</button>
+
+      <div class="badge">💳 PAYMENT</div>
+
+      <h2>Premium ₹99</h2>
+
+      <p>Select your payment method.</p>
+
+      <button class="payment-option" onclick="paymentDemo('UPI')">
+        📱 UPI
+      </button>
+
+      <button class="payment-option" onclick="paymentDemo('Card')">
+        💳 Debit / Credit Card
+      </button>
+
+      <button class="payment-option" onclick="paymentDemo('Net Banking')">
+        🏦 Net Banking
+      </button>
+
+      <p class="payment-note">
+        This is currently a demo payment screen.
+        A real payment gateway will be connected before accepting money.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo">✏️ Sketchify<span>AI</span></div>
+    <p>© 2026 Sketchify AI. All rights reserved.</p>
+  </footer>
+
+
+  <script src="app.js"></script>
+
+</body>
+  </html>
